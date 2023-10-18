@@ -1,0 +1,47 @@
+syntax = "proto3";
+option go_package = "protos/messages";
+
+service OMS_Service {
+
+	// Continente Manda un Nombre
+	rpc MandarNombre(Nombre) returns (Confirmar) {}
+
+	// Onu Pide Muertos o Infectados, recibe cadena de msgs
+	rpc PedirAfligido(Opcion) returns (stream Nombre) {}
+
+}
+
+service DataNode_Service {
+
+	// OMS Manda tupla (id, nombre)
+	rpc MandarId(TuplaId) returns (Confirmar) {}
+
+	// OMS solicita nombre segun id
+	rpc SolicitarNombre(Identificador) returns (Nombre) {}
+
+}
+
+message Confirmar {
+	int32 flag = 1;
+}
+
+// 1 = muerto, 0 = infectado
+message Opcion {
+	int32 flag = 1;
+}
+
+message Nombre {
+	string nombre = 1;
+}
+
+message Identificador {
+	int32 identificador = 1;
+}
+
+message TuplaId {
+	int32 identificador = 1;
+	string nombre = 2;
+}
+
+// Para compilar:
+// $ protoc --go_out=. --go_opt=paths=source_relative \    --go-grpc_out=. --go-grpc_opt=paths=source_relative \    messages.proto
