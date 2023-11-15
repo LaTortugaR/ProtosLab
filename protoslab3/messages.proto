@@ -1,0 +1,166 @@
+syntax = "proto3";
+option go_package = "protos/messages";
+
+// Tipos de Mensajes
+
+// Informante ------------------------------
+
+//  Informante  ->   Broker
+// Quiero hacer un cambio
+// Return: Direccion del Fulcrum
+//  argumento: Comando
+//  return: Direccion
+
+
+//  Informante  ->   Fulcrum
+// Quiero hacer un cambio
+// Return: Vector
+//  argumento: Comando
+//  return: Vector
+
+
+//   Vanguardia -------------------------------
+
+//  Vanguardia  ->  Broker
+// Quiero saber de soldados
+// Return: numero de soldados
+//  argumento: sector ,  base
+//  return: numero
+
+//  Broker -----------------------------------
+
+//  Broker  ->  Fulcrum
+// Oye, hay inconsistencia poh'
+// Return: Confirmar
+//  argumento: Sector
+//  return: Confirmar
+
+//  Fulcrum -------------------------------------
+
+//  Fulcrum (coord) ->  Fulcrum
+// Dame tu Vector
+// Return: Vector
+//  argumento: Sector
+//  return: Vector
+
+//  Fulcrum (coord) ->  Fulcrum
+// Dame el nombre de la base X y su valor
+// Return: nombre actual , tiempo de cambio de nombre,   valor actual, tiempo de cambio de valor
+//  argumento: Base
+//  return: Cambio
+
+//  Fulcrum (coord) ->  Fulcrum
+// Hace este cambio
+// Return: Confirmar
+//  argumento: Comando
+//  return: Confirmar
+
+
+//     Mixto -----------------------------------
+
+//  Vanguardia  ->   Broker
+//  Informante  ->   Broker
+// Oye hay inconsistencia
+// Return: Confirmar
+//  argumento: Sector
+//  return: Confirmar
+
+
+// Servicios ------------------------------------------
+
+// Servicio de Brocker
+service Brocker_Service {
+
+	// Informante quiere hacer un cambio
+	rpc MandarCambio(Cambio) returns (Direccion) {}
+
+	// Vanguardia pide soldados
+	rpc PedirSoldados(Soldados) returns (Numero) {}
+
+	// Informante/Vanguardia declara inconsistencia
+	rpc Inconsistencia(Sector) returns (Confirmar) {}
+
+}
+
+// Servicio de Fulcrum
+service Fulcrum_Service {
+
+	// Informante quiere hacer un cambio
+	rpc MandarCambio(Cambio) returns (Vector) {}
+
+	// Brocker declara inconsistencia
+	rpc Inconsistencia(Sector) returns (Confirmar) {}
+
+	// Fulcrum pide Vector
+	rpc PedirVector(Sector) returns (Vector) {}
+
+	// Fulcrum manda Vector nuevo
+	rpc MandarVector(SectorVector) returns (Confirmar) {}
+
+	// Fulcrum pide Base y Valor
+	rpc PedirBase(Base) returns (Cambio) {}
+
+	// Fulcrum quiere hacer un cambio
+	rpc MandarCambioFulcrum(Comando) returns (Confirmar) {}
+
+}
+
+
+  
+
+
+message Comando {
+	string accion = 1;
+	string sector = 2;
+	string base = 3;
+	string valor = 4;
+}
+
+message Direccion {
+	string direccion = 1;
+}
+
+message Vector {
+	string x = 1; 
+	string y = 2; 
+	string z = 3; 
+}
+
+message Sector {
+	string sector = 1;
+}
+
+message Base {
+	string base = 1;
+}
+
+message Confirmar {
+	string flag = 1;
+}
+
+message Soldados {
+	string sector = 1;
+	string base = 2;
+}
+
+message Numero {
+	string numero = 1;
+}
+
+message Cambio {
+	string nombre = 1;
+	string tiempo1 = 2;
+	string valor = 3;
+	string tiempo2 = 4;
+}
+
+message SectorVector {
+	string sector = 1;
+	string x = 2;
+	string y = 3;
+	string z = 4;
+}
+
+
+// Para compilar:
+// $ protoc --go_out=. --go_opt=paths=source_relative --go-grpc_out=. --go-grpc_opt=paths=source_relative protoslab3/messages.proto
