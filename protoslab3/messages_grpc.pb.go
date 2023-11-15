@@ -23,7 +23,7 @@ const _ = grpc.SupportPackageIsVersion7
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type Brocker_ServiceClient interface {
 	// Informante quiere hacer un cambio
-	MandarCambio(ctx context.Context, in *Cambio, opts ...grpc.CallOption) (*Direccion, error)
+	MandarCambio(ctx context.Context, in *Comando, opts ...grpc.CallOption) (*Direccion, error)
 	// Vanguardia pide soldados
 	PedirSoldados(ctx context.Context, in *Soldados, opts ...grpc.CallOption) (*Numero, error)
 	// Informante/Vanguardia declara inconsistencia
@@ -38,7 +38,7 @@ func NewBrocker_ServiceClient(cc grpc.ClientConnInterface) Brocker_ServiceClient
 	return &brocker_ServiceClient{cc}
 }
 
-func (c *brocker_ServiceClient) MandarCambio(ctx context.Context, in *Cambio, opts ...grpc.CallOption) (*Direccion, error) {
+func (c *brocker_ServiceClient) MandarCambio(ctx context.Context, in *Comando, opts ...grpc.CallOption) (*Direccion, error) {
 	out := new(Direccion)
 	err := c.cc.Invoke(ctx, "/Brocker_Service/MandarCambio", in, out, opts...)
 	if err != nil {
@@ -70,7 +70,7 @@ func (c *brocker_ServiceClient) Inconsistencia(ctx context.Context, in *Sector, 
 // for forward compatibility
 type Brocker_ServiceServer interface {
 	// Informante quiere hacer un cambio
-	MandarCambio(context.Context, *Cambio) (*Direccion, error)
+	MandarCambio(context.Context, *Comando) (*Direccion, error)
 	// Vanguardia pide soldados
 	PedirSoldados(context.Context, *Soldados) (*Numero, error)
 	// Informante/Vanguardia declara inconsistencia
@@ -82,7 +82,7 @@ type Brocker_ServiceServer interface {
 type UnimplementedBrocker_ServiceServer struct {
 }
 
-func (UnimplementedBrocker_ServiceServer) MandarCambio(context.Context, *Cambio) (*Direccion, error) {
+func (UnimplementedBrocker_ServiceServer) MandarCambio(context.Context, *Comando) (*Direccion, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method MandarCambio not implemented")
 }
 func (UnimplementedBrocker_ServiceServer) PedirSoldados(context.Context, *Soldados) (*Numero, error) {
@@ -105,7 +105,7 @@ func RegisterBrocker_ServiceServer(s grpc.ServiceRegistrar, srv Brocker_ServiceS
 }
 
 func _Brocker_Service_MandarCambio_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(Cambio)
+	in := new(Comando)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -117,7 +117,7 @@ func _Brocker_Service_MandarCambio_Handler(srv interface{}, ctx context.Context,
 		FullMethod: "/Brocker_Service/MandarCambio",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(Brocker_ServiceServer).MandarCambio(ctx, req.(*Cambio))
+		return srv.(Brocker_ServiceServer).MandarCambio(ctx, req.(*Comando))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -187,7 +187,7 @@ var Brocker_Service_ServiceDesc = grpc.ServiceDesc{
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type Fulcrum_ServiceClient interface {
 	// Informante quiere hacer un cambio
-	MandarCambio(ctx context.Context, in *Cambio, opts ...grpc.CallOption) (*Vector, error)
+	MandarCambio(ctx context.Context, in *Comando, opts ...grpc.CallOption) (*Vector, error)
 	// Brocker declara inconsistencia
 	Inconsistencia(ctx context.Context, in *Sector, opts ...grpc.CallOption) (*Confirmar, error)
 	// Fulcrum pide Vector
@@ -208,7 +208,7 @@ func NewFulcrum_ServiceClient(cc grpc.ClientConnInterface) Fulcrum_ServiceClient
 	return &fulcrum_ServiceClient{cc}
 }
 
-func (c *fulcrum_ServiceClient) MandarCambio(ctx context.Context, in *Cambio, opts ...grpc.CallOption) (*Vector, error) {
+func (c *fulcrum_ServiceClient) MandarCambio(ctx context.Context, in *Comando, opts ...grpc.CallOption) (*Vector, error) {
 	out := new(Vector)
 	err := c.cc.Invoke(ctx, "/Fulcrum_Service/MandarCambio", in, out, opts...)
 	if err != nil {
@@ -267,7 +267,7 @@ func (c *fulcrum_ServiceClient) MandarCambioFulcrum(ctx context.Context, in *Com
 // for forward compatibility
 type Fulcrum_ServiceServer interface {
 	// Informante quiere hacer un cambio
-	MandarCambio(context.Context, *Cambio) (*Vector, error)
+	MandarCambio(context.Context, *Comando) (*Vector, error)
 	// Brocker declara inconsistencia
 	Inconsistencia(context.Context, *Sector) (*Confirmar, error)
 	// Fulcrum pide Vector
@@ -285,7 +285,7 @@ type Fulcrum_ServiceServer interface {
 type UnimplementedFulcrum_ServiceServer struct {
 }
 
-func (UnimplementedFulcrum_ServiceServer) MandarCambio(context.Context, *Cambio) (*Vector, error) {
+func (UnimplementedFulcrum_ServiceServer) MandarCambio(context.Context, *Comando) (*Vector, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method MandarCambio not implemented")
 }
 func (UnimplementedFulcrum_ServiceServer) Inconsistencia(context.Context, *Sector) (*Confirmar, error) {
@@ -317,7 +317,7 @@ func RegisterFulcrum_ServiceServer(s grpc.ServiceRegistrar, srv Fulcrum_ServiceS
 }
 
 func _Fulcrum_Service_MandarCambio_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(Cambio)
+	in := new(Comando)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -329,7 +329,7 @@ func _Fulcrum_Service_MandarCambio_Handler(srv interface{}, ctx context.Context,
 		FullMethod: "/Fulcrum_Service/MandarCambio",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(Fulcrum_ServiceServer).MandarCambio(ctx, req.(*Cambio))
+		return srv.(Fulcrum_ServiceServer).MandarCambio(ctx, req.(*Comando))
 	}
 	return interceptor(ctx, in, info, handler)
 }

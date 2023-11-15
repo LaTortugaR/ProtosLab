@@ -72,7 +72,7 @@ option go_package = "protos/messages";
 service Brocker_Service {
 
 	// Informante quiere hacer un cambio
-	rpc MandarCambio(Cambio) returns (Direccion) {}
+	rpc MandarCambio(Comando) returns (Direccion) {}
 
 	// Vanguardia pide soldados
 	rpc PedirSoldados(Soldados) returns (Numero) {}
@@ -86,7 +86,7 @@ service Brocker_Service {
 service Fulcrum_Service {
 
 	// Informante quiere hacer un cambio
-	rpc MandarCambio(Cambio) returns (Vector) {}
+	rpc MandarCambio(Comando) returns (Vector) {}
 
 	// Brocker declara inconsistencia
 	rpc Inconsistencia(Sector) returns (Confirmar) {}
