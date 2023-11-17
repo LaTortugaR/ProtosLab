@@ -18,164 +18,164 @@ import (
 // Requires gRPC-Go v1.32.0 or later.
 const _ = grpc.SupportPackageIsVersion7
 
-// Brocker_ServiceClient is the client API for Brocker_Service service.
+// Broker_ServiceClient is the client API for Broker_Service service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
-type Brocker_ServiceClient interface {
+type Broker_ServiceClient interface {
 	// Informante quiere hacer un cambio
 	MandarCambio(ctx context.Context, in *Comando, opts ...grpc.CallOption) (*Direccion, error)
 	// Vanguardia pide soldados
-	PedirSoldados(ctx context.Context, in *Soldados, opts ...grpc.CallOption) (*Numero, error)
+	GetSoldados(ctx context.Context, in *Soldados, opts ...grpc.CallOption) (*Numero, error)
 	// Informante/Vanguardia declara inconsistencia
 	Inconsistencia(ctx context.Context, in *Sector, opts ...grpc.CallOption) (*Confirmar, error)
 }
 
-type brocker_ServiceClient struct {
+type broker_ServiceClient struct {
 	cc grpc.ClientConnInterface
 }
 
-func NewBrocker_ServiceClient(cc grpc.ClientConnInterface) Brocker_ServiceClient {
-	return &brocker_ServiceClient{cc}
+func NewBroker_ServiceClient(cc grpc.ClientConnInterface) Broker_ServiceClient {
+	return &broker_ServiceClient{cc}
 }
 
-func (c *brocker_ServiceClient) MandarCambio(ctx context.Context, in *Comando, opts ...grpc.CallOption) (*Direccion, error) {
+func (c *broker_ServiceClient) MandarCambio(ctx context.Context, in *Comando, opts ...grpc.CallOption) (*Direccion, error) {
 	out := new(Direccion)
-	err := c.cc.Invoke(ctx, "/Brocker_Service/MandarCambio", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/Broker_Service/MandarCambio", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *brocker_ServiceClient) PedirSoldados(ctx context.Context, in *Soldados, opts ...grpc.CallOption) (*Numero, error) {
+func (c *broker_ServiceClient) GetSoldados(ctx context.Context, in *Soldados, opts ...grpc.CallOption) (*Numero, error) {
 	out := new(Numero)
-	err := c.cc.Invoke(ctx, "/Brocker_Service/PedirSoldados", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/Broker_Service/GetSoldados", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *brocker_ServiceClient) Inconsistencia(ctx context.Context, in *Sector, opts ...grpc.CallOption) (*Confirmar, error) {
+func (c *broker_ServiceClient) Inconsistencia(ctx context.Context, in *Sector, opts ...grpc.CallOption) (*Confirmar, error) {
 	out := new(Confirmar)
-	err := c.cc.Invoke(ctx, "/Brocker_Service/Inconsistencia", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/Broker_Service/Inconsistencia", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-// Brocker_ServiceServer is the server API for Brocker_Service service.
-// All implementations must embed UnimplementedBrocker_ServiceServer
+// Broker_ServiceServer is the server API for Broker_Service service.
+// All implementations must embed UnimplementedBroker_ServiceServer
 // for forward compatibility
-type Brocker_ServiceServer interface {
+type Broker_ServiceServer interface {
 	// Informante quiere hacer un cambio
 	MandarCambio(context.Context, *Comando) (*Direccion, error)
 	// Vanguardia pide soldados
-	PedirSoldados(context.Context, *Soldados) (*Numero, error)
+	GetSoldados(context.Context, *Soldados) (*Numero, error)
 	// Informante/Vanguardia declara inconsistencia
 	Inconsistencia(context.Context, *Sector) (*Confirmar, error)
-	mustEmbedUnimplementedBrocker_ServiceServer()
+	mustEmbedUnimplementedBroker_ServiceServer()
 }
 
-// UnimplementedBrocker_ServiceServer must be embedded to have forward compatible implementations.
-type UnimplementedBrocker_ServiceServer struct {
+// UnimplementedBroker_ServiceServer must be embedded to have forward compatible implementations.
+type UnimplementedBroker_ServiceServer struct {
 }
 
-func (UnimplementedBrocker_ServiceServer) MandarCambio(context.Context, *Comando) (*Direccion, error) {
+func (UnimplementedBroker_ServiceServer) MandarCambio(context.Context, *Comando) (*Direccion, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method MandarCambio not implemented")
 }
-func (UnimplementedBrocker_ServiceServer) PedirSoldados(context.Context, *Soldados) (*Numero, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method PedirSoldados not implemented")
+func (UnimplementedBroker_ServiceServer) GetSoldados(context.Context, *Soldados) (*Numero, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetSoldados not implemented")
 }
-func (UnimplementedBrocker_ServiceServer) Inconsistencia(context.Context, *Sector) (*Confirmar, error) {
+func (UnimplementedBroker_ServiceServer) Inconsistencia(context.Context, *Sector) (*Confirmar, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Inconsistencia not implemented")
 }
-func (UnimplementedBrocker_ServiceServer) mustEmbedUnimplementedBrocker_ServiceServer() {}
+func (UnimplementedBroker_ServiceServer) mustEmbedUnimplementedBroker_ServiceServer() {}
 
-// UnsafeBrocker_ServiceServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to Brocker_ServiceServer will
+// UnsafeBroker_ServiceServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to Broker_ServiceServer will
 // result in compilation errors.
-type UnsafeBrocker_ServiceServer interface {
-	mustEmbedUnimplementedBrocker_ServiceServer()
+type UnsafeBroker_ServiceServer interface {
+	mustEmbedUnimplementedBroker_ServiceServer()
 }
 
-func RegisterBrocker_ServiceServer(s grpc.ServiceRegistrar, srv Brocker_ServiceServer) {
-	s.RegisterService(&Brocker_Service_ServiceDesc, srv)
+func RegisterBroker_ServiceServer(s grpc.ServiceRegistrar, srv Broker_ServiceServer) {
+	s.RegisterService(&Broker_Service_ServiceDesc, srv)
 }
 
-func _Brocker_Service_MandarCambio_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _Broker_Service_MandarCambio_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(Comando)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(Brocker_ServiceServer).MandarCambio(ctx, in)
+		return srv.(Broker_ServiceServer).MandarCambio(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/Brocker_Service/MandarCambio",
+		FullMethod: "/Broker_Service/MandarCambio",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(Brocker_ServiceServer).MandarCambio(ctx, req.(*Comando))
+		return srv.(Broker_ServiceServer).MandarCambio(ctx, req.(*Comando))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Brocker_Service_PedirSoldados_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _Broker_Service_GetSoldados_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(Soldados)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(Brocker_ServiceServer).PedirSoldados(ctx, in)
+		return srv.(Broker_ServiceServer).GetSoldados(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/Brocker_Service/PedirSoldados",
+		FullMethod: "/Broker_Service/GetSoldados",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(Brocker_ServiceServer).PedirSoldados(ctx, req.(*Soldados))
+		return srv.(Broker_ServiceServer).GetSoldados(ctx, req.(*Soldados))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Brocker_Service_Inconsistencia_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _Broker_Service_Inconsistencia_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(Sector)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(Brocker_ServiceServer).Inconsistencia(ctx, in)
+		return srv.(Broker_ServiceServer).Inconsistencia(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/Brocker_Service/Inconsistencia",
+		FullMethod: "/Broker_Service/Inconsistencia",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(Brocker_ServiceServer).Inconsistencia(ctx, req.(*Sector))
+		return srv.(Broker_ServiceServer).Inconsistencia(ctx, req.(*Sector))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-// Brocker_Service_ServiceDesc is the grpc.ServiceDesc for Brocker_Service service.
+// Broker_Service_ServiceDesc is the grpc.ServiceDesc for Broker_Service service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
-var Brocker_Service_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "Brocker_Service",
-	HandlerType: (*Brocker_ServiceServer)(nil),
+var Broker_Service_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "Broker_Service",
+	HandlerType: (*Broker_ServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
 			MethodName: "MandarCambio",
-			Handler:    _Brocker_Service_MandarCambio_Handler,
+			Handler:    _Broker_Service_MandarCambio_Handler,
 		},
 		{
-			MethodName: "PedirSoldados",
-			Handler:    _Brocker_Service_PedirSoldados_Handler,
+			MethodName: "GetSoldados",
+			Handler:    _Broker_Service_GetSoldados_Handler,
 		},
 		{
 			MethodName: "Inconsistencia",
-			Handler:    _Brocker_Service_Inconsistencia_Handler,
+			Handler:    _Broker_Service_Inconsistencia_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
@@ -188,7 +188,7 @@ var Brocker_Service_ServiceDesc = grpc.ServiceDesc{
 type Fulcrum_ServiceClient interface {
 	// Informante quiere hacer un cambio
 	MandarCambio(ctx context.Context, in *Comando, opts ...grpc.CallOption) (*Vector, error)
-	// Brocker declara inconsistencia
+	// Broker declara inconsistencia
 	Inconsistencia(ctx context.Context, in *Sector, opts ...grpc.CallOption) (*Confirmar, error)
 	// Fulcrum pide Vector
 	PedirVector(ctx context.Context, in *Sector, opts ...grpc.CallOption) (*Vector, error)
@@ -198,6 +198,8 @@ type Fulcrum_ServiceClient interface {
 	PedirBase(ctx context.Context, in *Base, opts ...grpc.CallOption) (*Cambio, error)
 	// Fulcrum quiere hacer un cambio
 	MandarCambioFulcrum(ctx context.Context, in *Comando, opts ...grpc.CallOption) (*Confirmar, error)
+	// Broker pide numero de soldados
+	GetSoldados(ctx context.Context, in *Soldados, opts ...grpc.CallOption) (*Numero, error)
 }
 
 type fulcrum_ServiceClient struct {
@@ -262,13 +264,22 @@ func (c *fulcrum_ServiceClient) MandarCambioFulcrum(ctx context.Context, in *Com
 	return out, nil
 }
 
+func (c *fulcrum_ServiceClient) GetSoldados(ctx context.Context, in *Soldados, opts ...grpc.CallOption) (*Numero, error) {
+	out := new(Numero)
+	err := c.cc.Invoke(ctx, "/Fulcrum_Service/GetSoldados", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // Fulcrum_ServiceServer is the server API for Fulcrum_Service service.
 // All implementations must embed UnimplementedFulcrum_ServiceServer
 // for forward compatibility
 type Fulcrum_ServiceServer interface {
 	// Informante quiere hacer un cambio
 	MandarCambio(context.Context, *Comando) (*Vector, error)
-	// Brocker declara inconsistencia
+	// Broker declara inconsistencia
 	Inconsistencia(context.Context, *Sector) (*Confirmar, error)
 	// Fulcrum pide Vector
 	PedirVector(context.Context, *Sector) (*Vector, error)
@@ -278,6 +289,8 @@ type Fulcrum_ServiceServer interface {
 	PedirBase(context.Context, *Base) (*Cambio, error)
 	// Fulcrum quiere hacer un cambio
 	MandarCambioFulcrum(context.Context, *Comando) (*Confirmar, error)
+	// Broker pide numero de soldados
+	GetSoldados(context.Context, *Soldados) (*Numero, error)
 	mustEmbedUnimplementedFulcrum_ServiceServer()
 }
 
@@ -302,6 +315,9 @@ func (UnimplementedFulcrum_ServiceServer) PedirBase(context.Context, *Base) (*Ca
 }
 func (UnimplementedFulcrum_ServiceServer) MandarCambioFulcrum(context.Context, *Comando) (*Confirmar, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method MandarCambioFulcrum not implemented")
+}
+func (UnimplementedFulcrum_ServiceServer) GetSoldados(context.Context, *Soldados) (*Numero, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetSoldados not implemented")
 }
 func (UnimplementedFulcrum_ServiceServer) mustEmbedUnimplementedFulcrum_ServiceServer() {}
 
@@ -424,6 +440,24 @@ func _Fulcrum_Service_MandarCambioFulcrum_Handler(srv interface{}, ctx context.C
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Fulcrum_Service_GetSoldados_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Soldados)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(Fulcrum_ServiceServer).GetSoldados(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/Fulcrum_Service/GetSoldados",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(Fulcrum_ServiceServer).GetSoldados(ctx, req.(*Soldados))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Fulcrum_Service_ServiceDesc is the grpc.ServiceDesc for Fulcrum_Service service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -454,6 +488,10 @@ var Fulcrum_Service_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "MandarCambioFulcrum",
 			Handler:    _Fulcrum_Service_MandarCambioFulcrum_Handler,
+		},
+		{
+			MethodName: "GetSoldados",
+			Handler:    _Fulcrum_Service_GetSoldados_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
