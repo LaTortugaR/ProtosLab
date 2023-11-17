@@ -121,6 +121,7 @@ message Comando {
 
 message Direccion {
 	string direccion = 1;
+	string fulcrum = 2;
 }
 
 message Vector {
@@ -148,6 +149,10 @@ message Soldados {
 
 message Numero {
 	string numero = 1;
+	string x = 2;
+	string y = 3;
+	string z = 4;
+	string fulcrum = 5;
 }
 
 message Cambio {
