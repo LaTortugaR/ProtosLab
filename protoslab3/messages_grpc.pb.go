@@ -23,7 +23,7 @@ const _ = grpc.SupportPackageIsVersion7
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type Broker_ServiceClient interface {
 	// Informante quiere hacer un cambio
-	MandarCambio(ctx context.Context, in *Comando, opts ...grpc.CallOption) (*Direccion, error)
+	MandarCambio(ctx context.Context, in *Comando, opts ...grpc.CallOption) (*Vector, error)
 	// Vanguardia pide soldados
 	GetSoldados(ctx context.Context, in *Soldados, opts ...grpc.CallOption) (*Numero, error)
 	// Informante/Vanguardia declara inconsistencia
@@ -38,8 +38,8 @@ func NewBroker_ServiceClient(cc grpc.ClientConnInterface) Broker_ServiceClient {
 	return &broker_ServiceClient{cc}
 }
 
-func (c *broker_ServiceClient) MandarCambio(ctx context.Context, in *Comando, opts ...grpc.CallOption) (*Direccion, error) {
-	out := new(Direccion)
+func (c *broker_ServiceClient) MandarCambio(ctx context.Context, in *Comando, opts ...grpc.CallOption) (*Vector, error) {
+	out := new(Vector)
 	err := c.cc.Invoke(ctx, "/Broker_Service/MandarCambio", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -70,7 +70,7 @@ func (c *broker_ServiceClient) Inconsistencia(ctx context.Context, in *Sector, o
 // for forward compatibility
 type Broker_ServiceServer interface {
 	// Informante quiere hacer un cambio
-	MandarCambio(context.Context, *Comando) (*Direccion, error)
+	MandarCambio(context.Context, *Comando) (*Vector, error)
 	// Vanguardia pide soldados
 	GetSoldados(context.Context, *Soldados) (*Numero, error)
 	// Informante/Vanguardia declara inconsistencia
@@ -82,7 +82,7 @@ type Broker_ServiceServer interface {
 type UnimplementedBroker_ServiceServer struct {
 }
 
-func (UnimplementedBroker_ServiceServer) MandarCambio(context.Context, *Comando) (*Direccion, error) {
+func (UnimplementedBroker_ServiceServer) MandarCambio(context.Context, *Comando) (*Vector, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method MandarCambio not implemented")
 }
 func (UnimplementedBroker_ServiceServer) GetSoldados(context.Context, *Soldados) (*Numero, error) {

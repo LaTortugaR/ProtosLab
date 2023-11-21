@@ -72,7 +72,7 @@ option go_package = "protos/messages";
 service Broker_Service {
 
 	// Informante quiere hacer un cambio
-	rpc MandarCambio(Comando) returns (Direccion) {}
+	rpc MandarCambio(Comando) returns (Vector) {}
 
 	// Vanguardia pide soldados
 	rpc GetSoldados(Soldados) returns (Numero) {}
