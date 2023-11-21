@@ -200,6 +200,14 @@ type Fulcrum_ServiceClient interface {
 	MandarCambioFulcrum(ctx context.Context, in *Comando, opts ...grpc.CallOption) (*Confirmar, error)
 	// Broker pide numero de soldados
 	GetSoldados(ctx context.Context, in *Soldados, opts ...grpc.CallOption) (*Numero, error)
+	// Buscar la lista de Sectores
+	BuscarSectorRemoto(ctx context.Context, in *Confirmar, opts ...grpc.CallOption) (*Sector, error)
+	// Buscar la lista de Bases
+	BuscarBaseRemoto(ctx context.Context, in *Sector, opts ...grpc.CallOption) (*Base, error)
+	// Buscar el dato más actualizado en el log
+	BuscarUltimoLog(ctx context.Context, in *Soldados, opts ...grpc.CallOption) (*Log, error)
+	// Borra el log
+	BorrarLog(ctx context.Context, in *Confirmar, opts ...grpc.CallOption) (*Confirmar, error)
 }
 
 type fulcrum_ServiceClient struct {
@@ -273,6 +281,42 @@ func (c *fulcrum_ServiceClient) GetSoldados(ctx context.Context, in *Soldados, o
 	return out, nil
 }
 
+func (c *fulcrum_ServiceClient) BuscarSectorRemoto(ctx context.Context, in *Confirmar, opts ...grpc.CallOption) (*Sector, error) {
+	out := new(Sector)
+	err := c.cc.Invoke(ctx, "/Fulcrum_Service/BuscarSectorRemoto", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *fulcrum_ServiceClient) BuscarBaseRemoto(ctx context.Context, in *Sector, opts ...grpc.CallOption) (*Base, error) {
+	out := new(Base)
+	err := c.cc.Invoke(ctx, "/Fulcrum_Service/BuscarBaseRemoto", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *fulcrum_ServiceClient) BuscarUltimoLog(ctx context.Context, in *Soldados, opts ...grpc.CallOption) (*Log, error) {
+	out := new(Log)
+	err := c.cc.Invoke(ctx, "/Fulcrum_Service/BuscarUltimoLog", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *fulcrum_ServiceClient) BorrarLog(ctx context.Context, in *Confirmar, opts ...grpc.CallOption) (*Confirmar, error) {
+	out := new(Confirmar)
+	err := c.cc.Invoke(ctx, "/Fulcrum_Service/BorrarLog", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // Fulcrum_ServiceServer is the server API for Fulcrum_Service service.
 // All implementations must embed UnimplementedFulcrum_ServiceServer
 // for forward compatibility
@@ -291,6 +335,14 @@ type Fulcrum_ServiceServer interface {
 	MandarCambioFulcrum(context.Context, *Comando) (*Confirmar, error)
 	// Broker pide numero de soldados
 	GetSoldados(context.Context, *Soldados) (*Numero, error)
+	// Buscar la lista de Sectores
+	BuscarSectorRemoto(context.Context, *Confirmar) (*Sector, error)
+	// Buscar la lista de Bases
+	BuscarBaseRemoto(context.Context, *Sector) (*Base, error)
+	// Buscar el dato más actualizado en el log
+	BuscarUltimoLog(context.Context, *Soldados) (*Log, error)
+	// Borra el log
+	BorrarLog(context.Context, *Confirmar) (*Confirmar, error)
 	mustEmbedUnimplementedFulcrum_ServiceServer()
 }
 
@@ -318,6 +370,18 @@ func (UnimplementedFulcrum_ServiceServer) MandarCambioFulcrum(context.Context, *
 }
 func (UnimplementedFulcrum_ServiceServer) GetSoldados(context.Context, *Soldados) (*Numero, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetSoldados not implemented")
+}
+func (UnimplementedFulcrum_ServiceServer) BuscarSectorRemoto(context.Context, *Confirmar) (*Sector, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method BuscarSectorRemoto not implemented")
+}
+func (UnimplementedFulcrum_ServiceServer) BuscarBaseRemoto(context.Context, *Sector) (*Base, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method BuscarBaseRemoto not implemented")
+}
+func (UnimplementedFulcrum_ServiceServer) BuscarUltimoLog(context.Context, *Soldados) (*Log, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method BuscarUltimoLog not implemented")
+}
+func (UnimplementedFulcrum_ServiceServer) BorrarLog(context.Context, *Confirmar) (*Confirmar, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method BorrarLog not implemented")
 }
 func (UnimplementedFulcrum_ServiceServer) mustEmbedUnimplementedFulcrum_ServiceServer() {}
 
@@ -458,6 +522,78 @@ func _Fulcrum_Service_GetSoldados_Handler(srv interface{}, ctx context.Context, 
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Fulcrum_Service_BuscarSectorRemoto_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Confirmar)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(Fulcrum_ServiceServer).BuscarSectorRemoto(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/Fulcrum_Service/BuscarSectorRemoto",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(Fulcrum_ServiceServer).BuscarSectorRemoto(ctx, req.(*Confirmar))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Fulcrum_Service_BuscarBaseRemoto_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Sector)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(Fulcrum_ServiceServer).BuscarBaseRemoto(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/Fulcrum_Service/BuscarBaseRemoto",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(Fulcrum_ServiceServer).BuscarBaseRemoto(ctx, req.(*Sector))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Fulcrum_Service_BuscarUltimoLog_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Soldados)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(Fulcrum_ServiceServer).BuscarUltimoLog(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/Fulcrum_Service/BuscarUltimoLog",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(Fulcrum_ServiceServer).BuscarUltimoLog(ctx, req.(*Soldados))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Fulcrum_Service_BorrarLog_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Confirmar)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(Fulcrum_ServiceServer).BorrarLog(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/Fulcrum_Service/BorrarLog",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(Fulcrum_ServiceServer).BorrarLog(ctx, req.(*Confirmar))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Fulcrum_Service_ServiceDesc is the grpc.ServiceDesc for Fulcrum_Service service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -492,6 +628,22 @@ var Fulcrum_Service_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetSoldados",
 			Handler:    _Fulcrum_Service_GetSoldados_Handler,
+		},
+		{
+			MethodName: "BuscarSectorRemoto",
+			Handler:    _Fulcrum_Service_BuscarSectorRemoto_Handler,
+		},
+		{
+			MethodName: "BuscarBaseRemoto",
+			Handler:    _Fulcrum_Service_BuscarBaseRemoto_Handler,
+		},
+		{
+			MethodName: "BuscarUltimoLog",
+			Handler:    _Fulcrum_Service_BuscarUltimoLog_Handler,
+		},
+		{
+			MethodName: "BorrarLog",
+			Handler:    _Fulcrum_Service_BorrarLog_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

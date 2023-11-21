@@ -105,6 +105,18 @@ service Fulcrum_Service {
 
 	// Broker pide numero de soldados
 	rpc GetSoldados(Soldados) returns (Numero) {}
+	
+	// Buscar la lista de Sectores
+	rpc BuscarSectorRemoto(Confirmar) returns (Sector) {}
+
+	// Buscar la lista de Bases
+	rpc BuscarBaseRemoto(Sector) returns (Base) {}
+
+	// Buscar el dato más actualizado en el log
+	rpc BuscarUltimoLog(Soldados) returns (Log) {}
+
+	// Borra el log
+	rpc BorrarLog(Confirmar) returns (Confirmar) {}
 
 }
 
@@ -167,6 +179,12 @@ message SectorVector {
 	string x = 2;
 	string y = 3;
 	string z = 4;
+}
+
+message Log {
+	string base = 1;
+	string valor = 2;
+	string tiempo = 3;
 }
 
 
